@@ -1,0 +1,19 @@
+camera_id: 2
+final_resolution: 1920x1080
+notes: Camera and USB extension cable tested using Python + OpenCV on Windows.
+resolutions_tested:
+- fps: 2.74
+  frames: 15
+  resolution: 1920x1080
+  time_sec: 5.47
+- fps: 8.88
+  frames: 45
+  resolution: 1280x720
+  time_sec: 5.06
+- fps: 24.59
+  frames: 123
+  resolution: 640x480
+  time_sec: 5.0
+sample_frame: camera_frame_sample.png
+test_status: passed
+tested_on: '2025-12-04T18:25:03'

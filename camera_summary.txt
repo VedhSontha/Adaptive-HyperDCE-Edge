@@ -1,0 +1,15 @@
+Camera Testing Summary
+----------------------
+Camera ID: 2
+Date: 2025-12-04T18:25:03
+
+Resolutions tested:
+ - 1920x1080: 2.74 FPS
+ - 1280x720: 8.88 FPS
+ - 640x480: 24.59 FPS
+
+Final configured resolution: 1920x1080
+Sample frame file: camera_frame_sample.png
+
+The camera and USB extension cable were successfully tested.
+Full results stored in: camera_testing.yaml

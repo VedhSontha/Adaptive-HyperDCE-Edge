@@ -1,0 +1,4 @@
+camera_id: 2
+fps: 4.37
+resolution: 1920x1080
+test_status: 'warning: low fps'

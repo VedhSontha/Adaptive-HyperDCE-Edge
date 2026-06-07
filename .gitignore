@@ -1,0 +1,17 @@
+# Python & Jupyter Caches
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.env
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/
+
+# Ignore Large Datasets
+lol_dataset/
+datasets/
+runs/
+
+# Ignore Large Pre-trained Weights (>100MB)
+yolov3-wider_16000.weights
+shape_predictor_68_face_landmarks.dat
