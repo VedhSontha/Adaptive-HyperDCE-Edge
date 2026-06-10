@@ -186,6 +186,28 @@ import torch
 "
 ```
 
+### 4. Run ONNX Inference (Edge Deployment)
+You can deploy the optimized `zero_dce_256x256.onnx` model using `onnxruntime` on edge devices:
+```python
+import cv2
+import numpy as np
+import onnxruntime as ort
+
+# Load model and prepare image
+session = ort.InferenceSession("zero_dce_256x256.onnx")
+img = cv2.imread("input.jpg")
+img = cv2.resize(img, (256, 256))
+img = img.astype(np.float32) / 255.0
+img = np.transpose(img, (2, 0, 1))  # HWC to CHW
+img = np.expand_dims(img, axis=0)   # Add batch dimension
+
+# Run enhancement
+inputs = {session.get_inputs()[0].name: img}
+outputs = session.run(None, inputs)
+enhanced_img = outputs[0][0]
+```
+
+
 ---
 
 ## 📜 Patent Information
