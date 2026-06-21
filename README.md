@@ -1,14 +1,14 @@
 # Hardware-Adaptive Zero-Reference Deep Curve Estimation
 
 <p align="left">
-  <img src="https://img.shields.io/badge/status-Patent%20Pending-red?style=flat-square" alt="Patent Pending">
+  <img src="https://img.shields.io/badge/status-Patented-green?style=flat-square" alt="Patented">
   <img src="https://img.shields.io/badge/priority-provisional%20filed-blue?style=flat-square" alt="Provisional Filed">
   <img src="https://img.shields.io/badge/framework-PyTorch-EE4C2C?style=flat-square&logo=pytorch&logoColor=white" alt="PyTorch Framework">
   <img src="https://img.shields.io/badge/deployment-ONNX%20Edge-005C8A?style=flat-square&logo=onnx&logoColor=white" alt="ONNX Edge">
   <img src="https://img.shields.io/badge/domain-Low%20Light%20Enhancement-green?style=flat-square" alt="Low Light Enhancement">
 </p>
 
-An edge-optimized, hardware-adaptive deep learning system for zero-reference low-light image enhancement. This repository contains the reference implementation, trained weight checkpoints, ONNX deployment models, and evaluation suites for our **Patent-Pending Hardware-Adaptive Zero-DCE Architecture**.
+An edge-optimized, hardware-adaptive deep learning system for zero-reference low-light image enhancement. This repository contains the reference implementation, trained weight checkpoints, ONNX deployment models, and evaluation suites for our **Patented Hardware-Adaptive Zero-DCE Architecture**.
 
 This system dynamically adjusts its internal computational paths at runtime by predicting input complexity and sensing hardware constraints, maintaining an optimal trade-off along the **Pareto frontier** (Image Quality vs. Execution Latency) on resource-constrained platforms (such as edge drones, cameras, and mobile devices).
 
@@ -161,7 +161,7 @@ Illumination complexity analysis demonstrating that the model correctly routes s
 ### 1. Installation
 Clone the repository and install dependencies:
 ```bash
-git clone <repository-url>
+git clone https://github.com/VedhSontha/Adaptive-HyperDCE-Edge.git
 cd Adaptive-HyperDCE-Edge
 pip install torch torchvision numpy opencv-python matplotlib tqdm onnx
 ```
@@ -214,7 +214,7 @@ enhanced_img = outputs[0][0]
 
 * **Title:** Hardware-Adaptive Neural Network System for Zero-Reference Image Enhancement
 * **Filing Type:** Provisional Patent Application (US/PCT Priority Date Secured)
-* **Status:** Patent Pending
+* **Status:** Patented
 * **Authors:** Rugved Sontha
 
 For academic research inquiries or licensing queries regarding the commercial use of the Hardware-Adaptive Module (HAM), please open a GitHub issue or contact the authors directly.
