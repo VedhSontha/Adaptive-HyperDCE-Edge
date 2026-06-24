@@ -44,13 +44,22 @@ class enhance_net_nopool(nn.Module):
 		r1,r2,r3,r4,r5,r6,r7,r8 = torch.split(x_r, 3, dim=1)
 
 
+		# Zero-DCE curve mapping formula: LE_n(x) = LE_{n-1}(x) + r_n * LE_{n-1}(x) * (1 - LE_{n-1}(x))
+		# implemented equivalently as: x = x + r_n * (x^2 - x)
+		# Iterations 1-3: Initial light enhancement curve estimation
 		x = x + r1*(torch.pow(x,2)-x)
 		x = x + r2*(torch.pow(x,2)-x)
 		x = x + r3*(torch.pow(x,2)-x)
+		
+		# Iteration 4: Mid-point enhanced output (used for auxiliary supervision or intermediate output)
 		enhance_image_1 = x + r4*(torch.pow(x,2)-x)		
+		
+		# Iterations 5-7: High-order curve refinement steps
 		x = enhance_image_1 + r5*(torch.pow(enhance_image_1,2)-enhance_image_1)		
 		x = x + r6*(torch.pow(x,2)-x)	
 		x = x + r7*(torch.pow(x,2)-x)
+		
+		# Iteration 8: Final light enhanced image result
 		enhance_image = x + r8*(torch.pow(x,2)-x)
 		r = torch.cat([r1,r2,r3,r4,r5,r6,r7,r8],1)
 		return enhance_image_1,enhance_image,r
