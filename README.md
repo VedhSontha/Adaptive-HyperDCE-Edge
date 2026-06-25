@@ -96,6 +96,15 @@ class HardwareAdaptiveModule(nn.Module):
 ### Claim 2: Adaptive Complexity Predictor
 The routing weights $w_1$ and $w_2$ are dynamically generated at runtime. The module uses Global Average Pooling and a $1 \times 1$ conv head to classify global scene contrast, noise distribution, and illumination vectors, ensuring the model adapts instantly to changing environmental light.
 
+### Reference Zero-DCE Curve Mapping (`model.py`)
+The baseline model performs pixel-wise light enhancement iteratively. For each input pixel value $x$, the quadratic mapping at iteration $n$ is defined by:
+$$LE_n(x) = LE_{n-1}(x) + r_n \cdot LE_{n-1}(x) \cdot (1 - LE_{n-1}(x))$$
+In PyTorch (see [model.py](file:///c:/Users/vedhr/CODES/Zero-DCE/model.py)), this is evaluated equivalently as:
+```python
+x = x + r_n * (torch.pow(x, 2) - x)
+```
+Using 8 iterations of this formula with estimated parameters $r_1, r_2, \dots, r_8$ to produce the final enhanced image.
+
 ### Claim 3: Hardware-Responsive Constraint Loss
 Training is governed by an auxiliary hardware constraint loss term. This loss penalizes heavy path activation during simulation of low-battery or high-temperature edge events, forcing the network to optimize for energy-efficient paths.
 
