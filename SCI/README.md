@@ -19,9 +19,9 @@
 ### Dataset used in the paper
 
 
-[[MIT](https://drive.google.com/file/d/1KKB0ruBN12-vr-4upz8ZXKTsE3yHnt2V/view?usp=sharing)]: This paper randomly selected 500 image pairs and 100 image pairs from the MIT dataset for training and testing, respetively. Details about the RAW2RGB conversion process and the complete MIT dataset information could be obtained from [the official website](https://data.csail.mit.edu/graphics/fivek/).
+[[MIT](https://drive.google.com/file/d/1KKB0ruBN12-vr-4upz8ZXKTsE3yHnt2V/view?usp=sharing)]: This paper randomly selected 500 image pairs and 100 image pairs from the MIT dataset for training and testing, respectively. Details about the RAW2RGB conversion process and the complete MIT dataset information could be obtained from [the official website](https://data.csail.mit.edu/graphics/fivek/).
 
-[[LSRW](https://drive.google.com/file/d/1feX1yZwRtKv3kJwpGyBT1CtOjH9rrTg2/view?usp=sharing)]: This paper randomly selected 500 image pairs and 50 image pairs from the LSRW dataset for training and testing, respetively. The complete LSRW dataset information could be obtained from [the official website](https://drive.google.com/file/d/1X1uuH5gqmGua2AnN4BsC8YI-H7mJ1Dji/view?usp=sharing).
+[[LSRW](https://drive.google.com/file/d/1feX1yZwRtKv3kJwpGyBT1CtOjH9rrTg2/view?usp=sharing)]: This paper randomly selected 500 image pairs and 50 image pairs from the LSRW dataset for training and testing, respectively. The complete LSRW dataset information could be obtained from [the official website](https://drive.google.com/file/d/1X1uuH5gqmGua2AnN4BsC8YI-H7mJ1Dji/view?usp=sharing).
 
 Note that the provided model in this code are not the model for generating results reported in the paper.
 ### Introduce the trained model
@@ -34,7 +34,7 @@ The training configurations of the above three models are as follows:
 
 If you want to retrain a new model, you could write the path of the dataset to "train.py" and run "train.py", the final model will be saved to the weights folder, and the intermediate visualization results will be saved to the results folder.
 
-In addition, we also provide "finetune.py" in the code root directory, which aims to make the method proposed in this paper better applicable to more variable scenarios. Specifically, if you are not satisfied with the performance of the three models provided above in some other low-light scenes, you could use "finetune.py" to fine-tune the models to get a model whose performance is satisfactory to you.
+In addition, we also provide "finetune.py" in the code root directory, which aims to make the method proposed in this paper better applicable to more varied scenarios. Specifically, if you are not satisfied with the performance of the three models provided above in some other low-light scenes, you could use "finetune.py" to fine-tune the models to get a model whose performance is satisfactory to you.
 
 ### Testing
 * Prepare the data and put it in the specified folder
