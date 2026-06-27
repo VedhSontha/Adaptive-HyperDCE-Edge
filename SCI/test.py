@@ -48,8 +48,9 @@ def main():
     model.eval()
     with torch.no_grad():
         for _, (input, image_name) in enumerate(test_queue):
-            input = Variable(input, volatile=True).cuda()
-            image_name = image_name[0].split('\\')[-1].split('.')[0]
+            input = input.cuda()
+            base_name = os.path.basename(image_name[0])
+            image_name = os.path.splitext(base_name)[0]
             i, r = model(input)
             u_name = '%s.png' % (image_name)
             print('processing {}'.format(u_name))
