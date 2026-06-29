@@ -29,15 +29,18 @@ def weights_init(m):
 def train(config):
 
 	os.environ['CUDA_VISIBLE_DEVICES']='0'
+	device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-	DCE_net = model.enhance_net_nopool().cuda()
+	DCE_net = model.enhance_net_nopool().to(device)
 
 	DCE_net.apply(weights_init)
 	if config.load_pretrain == True:
-	    DCE_net.load_state_dict(torch.load(config.pretrain_dir))
+	    DCE_net.load_state_dict(torch.load(config.pretrain_dir, map_location=device))
 	train_dataset = dataloader.lowlight_loader(config.lowlight_images_path)		
 	
-	train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=config.train_batch_size, shuffle=True, num_workers=config.num_workers, pin_memory=True)
+	# Disable pin_memory if running on CPU to prevent CUDA initialization warnings
+	use_pin = torch.cuda.is_available()
+	train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=config.train_batch_size, shuffle=True, num_workers=config.num_workers, pin_memory=use_pin)
 
 
 
@@ -55,7 +58,7 @@ def train(config):
 	for epoch in range(config.num_epochs):
 		for iteration, img_lowlight in enumerate(train_loader):
 
-			img_lowlight = img_lowlight.cuda()
+			img_lowlight = img_lowlight.to(device)
 
 			enhanced_image_1,enhanced_image,A  = DCE_net(img_lowlight)
 
