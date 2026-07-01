@@ -23,11 +23,13 @@ args = parser.parse_args()
 save_path = args.save_path
 os.makedirs(save_path, exist_ok=True)
 
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
 TestDataset = MemoryFriendlyLoader(img_dir=args.data_path, task='test')
 
 test_queue = torch.utils.data.DataLoader(
     TestDataset, batch_size=1,
-    pin_memory=True, num_workers=0)
+    pin_memory=(device.type == 'cuda'), num_workers=0)
 
 
 def save_images(tensor, path):
@@ -38,17 +40,18 @@ def save_images(tensor, path):
 
 
 def main():
-    if not torch.cuda.is_available():
-        print('no gpu device available')
-        sys.exit(1)
+    if device.type == 'cuda':
+        print(f'Using GPU device: {args.gpu}')
+    else:
+        print('No GPU device available, running evaluation on CPU')
 
     model = Finetunemodel(args.model)
-    model = model.cuda()
+    model = model.to(device)
 
     model.eval()
     with torch.no_grad():
         for _, (input, image_name) in enumerate(test_queue):
-            input = input.cuda()
+            input = input.to(device)
             base_name = os.path.basename(image_name[0])
             image_name = os.path.splitext(base_name)[0]
             i, r = model(input)
