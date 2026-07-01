@@ -26,14 +26,13 @@ args = parser.parse_args()
 os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu
 os.makedirs(args.save, exist_ok=True)
 
-if torch.cuda.is_available():
-    if args.cuda:
-        torch.set_default_tensor_type('torch.cuda.FloatTensor')
-    if not args.cuda:
+use_cuda = torch.cuda.is_available() and args.cuda
+if use_cuda:
+    torch.set_default_tensor_type('torch.cuda.FloatTensor')
+else:
+    if torch.cuda.is_available() and not args.cuda:
         print("WARNING: It looks like you have a CUDA device, but aren't " +
               "using CUDA.\nRun with --cuda for optimal training speed.")
-        torch.set_default_tensor_type('torch.FloatTensor')
-else:
     torch.set_default_tensor_type('torch.FloatTensor')
 
 
@@ -45,20 +44,21 @@ def save_images(tensor, path):
 
 
 def main():
-    if not torch.cuda.is_available():
-        logging.info('no gpu device available')
-        sys.exit(1)
-
+    device = torch.device('cuda' if torch.cuda.is_available() and args.cuda else 'cpu')
     np.random.seed(args.seed)
-    cudnn.benchmark = True
     torch.manual_seed(args.seed)
-    cudnn.enabled = True
-    torch.cuda.manual_seed(args.seed)
-    logging.info('gpu device = %s' % args.gpu)
+    
+    if device.type == 'cuda':
+        cudnn.benchmark = True
+        cudnn.enabled = True
+        torch.cuda.manual_seed(args.seed)
+        logging.info('gpu device = %s' % args.gpu)
+    else:
+        logging.info('no gpu device available, running on CPU')
     logging.info("args = %s", args)
 
     model = Finetunemodel(args.model)
-    model = model.cuda()
+    model = model.to(device)
 
     optimizer = torch.optim.Adam(model.parameters(), lr=args.lr, betas=(0.9, 0.999), weight_decay=3e-4)
 
@@ -69,11 +69,11 @@ def main():
 
     train_queue = torch.utils.data.DataLoader(
         TrainDataset, batch_size=args.batch_size,
-        pin_memory=True, num_workers=0, shuffle=True)
+        pin_memory=(device.type == 'cuda'), num_workers=0, shuffle=True)
 
     test_queue = torch.utils.data.DataLoader(
         TestDataset, batch_size=1,
-        pin_memory=True, num_workers=0, shuffle=True)
+        pin_memory=(device.type == 'cuda'), num_workers=0, shuffle=True)
 
     total_step = 0
 
@@ -82,7 +82,7 @@ def main():
 
         for batch_idx, (input, _) in enumerate(train_queue):
             total_step += 1
-            input = Variable(input, requires_grad=False).cuda()
+            input = Variable(input, requires_grad=False).to(device)
 
             optimizer.zero_grad()
 
@@ -97,8 +97,8 @@ def main():
                 model.eval()
                 with torch.no_grad():
                     for _, (input, image_name) in enumerate(test_queue):
-                        input = Variable(input).cuda()
-                        image_name = image_name[0].split('\\')[-1].split('.')[0]
+                        input = Variable(input).to(device)
+                        image_name = os.path.splitext(os.path.basename(image_name[0]))[0]
                         illu, ref = model(input)
 
                         u_name = '%s.png' % (image_name + '_' + str(total_step) + '_ref_')
