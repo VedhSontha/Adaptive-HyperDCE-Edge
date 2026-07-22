@@ -125,3 +125,5 @@ if __name__ == "__main__":
 
 
 	
+
+# Checkpoint: model weights saved every 10 epochs to snapshots/ directory
