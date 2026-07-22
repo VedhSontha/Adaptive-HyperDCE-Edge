@@ -17,3 +17,5 @@ resolutions_tested:
 sample_frame: camera_frame_sample.png
 test_status: passed
 tested_on: '2025-12-04T18:25:03'
+
+# Camera testing configuration — validated for Intel RealSense D435
